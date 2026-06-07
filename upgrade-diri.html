@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Upgrade Diri — Untuk Organisasi yang Lebih Baik</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --ink: #1a1208; --warm: #3d2b1f; --gold: #c9a84c; --gold-light: #e8c97a;
+    --cream: #faf6ee; --paper: #f5eed8; --rust: #8b3a2a; --sage: #5c6b4e; --mist: #c8bfaf;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--cream); color: var(--ink); font-family: 'DM Sans', sans-serif; overflow-x: hidden; min-height: 100vh; }
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 100; opacity: 0.6;
+  }
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; position: relative; padding: 60px 24px; text-align: center;
+    background: radial-gradient(ellipse at 50% 0%, #e8d9b8 0%, var(--cream) 70%);
+  }
+  .hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 120px; background: linear-gradient(to bottom, transparent, var(--cream)); }
+  .ornament { font-family: 'Cormorant Garamond', serif; font-size: 80px; color: var(--gold); opacity: 0.25; line-height: 1; margin-bottom: -20px; animation: fadeDown 1.2s ease forwards; }
+  .hero-label { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); font-weight: 500; margin-bottom: 20px; opacity: 0; animation: fadeUp 1s ease 0.3s forwards; }
+  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(44px, 8vw, 92px); font-weight: 900; line-height: 1.05; color: var(--ink); margin-bottom: 16px; opacity: 0; animation: fadeUp 1s ease 0.5s forwards; }
+  .hero-title em { font-style: italic; color: var(--rust); }
+  .hero-subtitle { font-family: 'Cormorant Garamond', serif; font-size: clamp(18px, 3vw, 26px); font-style: italic; color: var(--warm); font-weight: 300; max-width: 580px; line-height: 1.65; opacity: 0; animation: fadeUp 1s ease 0.7s forwards; }
+  .scroll-hint { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; opacity: 0; animation: fadeUp 1s ease 1.5s forwards; }
+  .scroll-hint span { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--mist); }
+  .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gold), transparent); animation: scrollPulse 2s ease infinite; }
+  .content { max-width: 760px; margin: 0 auto; padding: 0 24px 120px; }
+  .section { margin-bottom: 80px; opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .section.visible { opacity: 1; transform: translateY(0); }
+  .section-number { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); font-weight: 500; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+  .section-number::after { content: ''; flex: 1; height: 1px; background: linear-gradient(to right, var(--gold), transparent); max-width: 80px; }
+  .section-heading { font-family: 'Playfair Display', serif; font-size: clamp(28px, 5vw, 44px); font-weight: 700; line-height: 1.2; color: var(--ink); margin-bottom: 28px; }
+  .section-heading em { font-style: italic; color: var(--rust); }
+  .prose { font-size: 17px; line-height: 1.9; color: var(--warm); font-weight: 300; }
+  .prose strong { font-weight: 500; color: var(--ink); }
+  .prose .en { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 19px; color: var(--sage); font-weight: 600; }
+  .pull-quote { margin: 60px 0; padding: 48px 40px; background: var(--ink); color: var(--cream); position: relative; overflow: hidden; opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .pull-quote.visible { opacity: 1; transform: translateY(0); }
+  .pull-quote::before { content: '"'; position: absolute; top: -20px; left: 24px; font-family: 'Playfair Display', serif; font-size: 200px; color: var(--gold); opacity: 0.1; line-height: 1; }
+  .pull-quote-text { font-family: 'Playfair Display', serif; font-size: clamp(20px, 3.5vw, 34px); font-style: italic; line-height: 1.45; position: relative; z-index: 1; }
+  .pull-quote-text em { color: var(--gold-light); font-style: normal; }
+  .pull-quote-sub { margin-top: 20px; font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: var(--mist); position: relative; z-index: 1; }
+  .points { display: flex; flex-direction: column; gap: 36px; margin-top: 40px; }
+  .point { display: grid; grid-template-columns: 48px 1fr; gap: 20px; align-items: start; opacity: 0; transform: translateX(-20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .point.visible { opacity: 1; transform: translateX(0); }
+  .point-num { width: 48px; height: 48px; border: 1px solid var(--gold); display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--gold); flex-shrink: 0; margin-top: 2px; }
+  .point-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--ink); margin-bottom: 8px; line-height: 1.3; }
+  .point-body { font-size: 16px; line-height: 1.85; color: var(--warm); font-weight: 300; }
+  .point-body .en { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 17px; color: var(--sage); font-weight: 600; }
+  .divider { display: flex; align-items: center; gap: 16px; margin: 64px 0; opacity: 0; transition: opacity 0.8s ease; }
+  .divider.visible { opacity: 1; }
+  .divider-line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, var(--mist), transparent); }
+  .divider-ornament { font-size: 20px; color: var(--gold); opacity: 0.6; }
+  .closing { text-align: center; padding: 80px 24px 40px; background: linear-gradient(to bottom, var(--cream), var(--paper)); opacity: 0; transform: translateY(40px); transition: opacity 1s ease, transform 1s ease; }
+  .closing.visible { opacity: 1; transform: translateY(0); }
+  .closing-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 6vw, 60px); font-weight: 900; font-style: italic; color: var(--ink); line-height: 1.2; margin-bottom: 32px; }
+  .closing-title span { color: var(--rust); }
+  .closing-prose { font-family: 'Cormorant Garamond', serif; font-size: clamp(18px, 3vw, 24px); font-style: italic; font-weight: 300; line-height: 1.8; color: var(--warm); max-width: 580px; margin: 0 auto 40px; }
+  .closing-stamp { display: inline-block; border: 2px solid var(--gold); padding: 14px 36px; font-size: 11px; letter-spacing: 5px; text-transform: uppercase; color: var(--gold); font-weight: 500; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 0.25; transform: translateY(0); } }
+  @keyframes scrollPulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+  @media (max-width: 600px) {
+    .pull-quote { padding: 36px 24px; }
+    .point { grid-template-columns: 40px 1fr; gap: 14px; }
+    .point-num { width: 40px; height: 40px; font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="ornament">✦</div>
+  <p class="hero-label">Untuk Kita yang Bergerak Bersama — For Those Who Move Together</p>
+  <h1 class="hero-title">Organisasi yang kuat<br>dimulai dari <em>dirimu.</em></h1>
+  <p class="hero-subtitle">Sebelum kita bicara soal visi bersama, program kerja, dan perubahan besar — mari kita bicara tentang hal yang paling fundamental: siapa kita sebagai individu di dalam organisasi ini.</p>
+  <div class="scroll-hint">
+    <span>Baca sampai habis</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<div class="content">
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <p class="section-number">01 — Pengantar</p>
+    <h2 class="section-heading">Organisasi tidak akan<br>melebihi <em>kualitas anggotanya.</em></h2>
+    <p class="prose">
+      Sering kali kita berbicara tentang organisasi yang ideal — program kerja yang terencana, kepemimpinan yang kuat, kolaborasi yang solid. Tapi ada satu pertanyaan yang jarang kita tanyakan dengan jujur kepada diri sendiri:<br><br>
+      <span class="en">"Am I the kind of member this organization truly deserves?"</span><br><br>
+      Sebuah organisasi hanyalah cerminan dari orang-orang yang ada di dalamnya. Ketika kita mengeluhkan organisasi yang tidak berkembang, rapat yang tidak produktif, atau program yang tidak berjalan — <strong>kita sebenarnya sedang melihat pantulan dari diri kita masing-masing.</strong><br><br>
+      Dan justru di sini letak kekuatannya: kalau perubahan organisasi dimulai dari individu, maka kamu — tepat seperti yang kamu baca sekarang — adalah titik awal dari perubahan itu.<br><br>
+      Bukan menunggu ketuanya berubah dulu. Bukan menunggu sistemnya diperbaiki dulu. Mulai dari <strong>upgrade dirimu sendiri sebagai bagian dari organisasi ini.</strong>
+    </p>
+  </div>
+
+  <!-- PULL QUOTE 1 -->
+  <div class="pull-quote">
+    <p class="pull-quote-text">"Jangan tanya apa yang bisa organisasi berikan untukmu. Tanya apa yang sudah kamu berikan untuk membuat organisasi ini <em>layak dibanggakan.</em>"</p>
+    <p class="pull-quote-sub">— Refleksi untuk setiap anggota</p>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <p class="section-number">02 — Tanggung Jawab</p>
+    <h2 class="section-heading">Amanah itu bukan<br><em>sekadar jabatan.</em></h2>
+    <p class="prose">
+      Ketika kamu menerima sebuah peran — entah itu ketua divisi, anggota biasa, atau panitia sebuah kegiatan — kamu tidak hanya menerima titel. Kamu menerima sebuah <strong>kepercayaan.</strong><br><br>
+      <span class="en">"With every role comes responsibility. And with every responsibility comes the choice: to honor it, or to let it fade into excuses."</span><br><br>
+      Terlalu sering kita melihat anggota yang hadir tapi tidak berkontribusi. Pengurus yang punya jabatan tapi tidak punya inisiatif. Program kerja yang disetujui di rapat, tapi tidak dijalankan di lapangan. Bukan karena tidak mampu — tapi karena tanggung jawab tidak dihayati dengan serius.<br><br>
+      Tanggung jawab organisasi bukan soal takut dihukum atau dinilai jelek. Ini soal <strong>integritas</strong> — apakah keputusan yang kamu ambil dalam rapat, kamu pegang juga dalam tindakan nyata?<br><br>
+      Berani mengangkat tangan saat rapat berarti berani menanggung konsekuensinya. Berani setuju dengan program kerja berarti berani hadir dalam setiap prosesnya. <strong>Konsistensi antara kata dan tindakan itulah yang membangun kepercayaan dalam organisasi.</strong>
+    </p>
+  </div>
+
+  <div class="divider">
+    <div class="divider-line"></div>
+    <div class="divider-ornament">✦</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- SECTION 3 — POINTS -->
+  <div class="section">
+    <p class="section-number">03 — Langkah Nyata</p>
+    <h2 class="section-heading">Tujuh komitmen yang<br>bisa kamu mulai <em>hari ini.</em></h2>
+    <div class="points">
+
+      <div class="point">
+        <div class="point-num">1</div>
+        <div>
+          <p class="point-title">Hadir Bukan Sekadar Absen</p>
+          <p class="point-body">Ada bedanya antara hadir secara fisik dan hadir secara penuh. Rapat bukan sekadar tempat kamu duduk dan mengangguk — itu adalah ruang di mana ide organisasi dibentuk. <span class="en">"Presence without contribution is just attendance. Real presence means showing up with your mind, not just your body."</span> Mulai sekarang, hadirkan gagasanmu, bukan hanya tubuhmu.</p>
+        </div>
+      </div>
+
+      <div class="point">
+        <div class="point-num">2</div>
+        <div>
+          <p class="point-title">Selesaikan Apa yang Kamu Mulai</p>
+          <p class="point-body">Salah satu penyakit terbesar dalam organisasi adalah proyek yang setengah jalan. Semangat di awal, menghilang di tengah. <span class="en">"A culture of follow-through is built one completed commitment at a time."</span> Ketika kamu menyanggupi sebuah tugas, itulah kontrakmu dengan organisasi. Hormati itu — selesaikan, laporkan, pertanggungjawabkan.</p>
+        </div>
+      </div>
+
+      <div class="point">
+        <div class="point-num">3</div>
+        <div>
+          <p class="point-title">Beri Masukan, Bukan Hanya Kritikan</p>
+          <p class="point-body">Mudah sekali mengomentari program yang tidak berjalan baik. Jauh lebih berharga datang dengan solusi. <span class="en">"Don't just point at what's broken — be the one who brings the tools to fix it."</span> Organisasi tidak butuh anggota yang paling banyak mengeluh. Organisasi butuh anggota yang paling banyak berkontribusi dalam mencari jalan keluar.</p>
+        </div>
+      </div>
+
+      <div class="point">
+        <div class="point-num">4</div>
+        <div>
+          <p class="point-title">Jaga Nama Baik Kolektif</p>
+          <p class="point-body">Setiap tindakanmu di luar organisasi adalah representasi dari seluruh anggota. Cara kamu berbicara, cara kamu bersikap, cara kamu memperlakukan orang lain — semua itu membawa nama organisasi bersamanya. <span class="en">Your personal conduct is the organization's public face. Upgrade yourself, and you upgrade the organization's reputation.</span></p>
+        </div>
+      </div>
+
+      <div class="point">
+        <div class="point-num">5</div>
+        <div>
+          <p class="point-title">Terus Belajar dan Bagikan Ilmunya</p>
+          <p class="point-body">Anggota yang terbaik bukan yang paling banyak tahu — tapi yang paling bersedia berbagi apa yang mereka tahu. Ikuti pelatihan, baca referensi, cari pengalaman baru — lalu bawa itu kembali ke dalam organisasi. <span class="en">"An organization grows as fast as its slowest learner. Be the one who pulls everyone forward."</span> Upgrade dirimu adalah investasi kolektif untuk kita semua.</p>
+        </div>
+      </div>
+
+      <div class="point">
+        <div class="point-num">6</div>
+        <div>
+          <p class="point-title">Akui Kekeliruan, Perbaiki Bersama</p>
+          <p class="point-body">Program yang gagal, koordinasi yang buruk, keputusan yang tidak tepat — itu semua bagian dari perjalanan. Yang membedakan organisasi yang maju dari yang stagnan bukan absennya kesalahan, tapi bagaimana mereka menyikapinya. <span class="en">"Accountability in a team means saying 'we got this wrong' and immediately asking 'how do we make it right?'"</span> Budaya saling memperbaiki dimulai dari keberanianmu untuk pertama kali mengakui.</p>
+        </div>
+      </div>
+
+      <div class="point">
+        <div class="point-num">7</div>
+        <div>
+          <p class="point-title">Jadilah Anggota yang Menginspirasi, Bukan Hanya yang Berprestasi</p>
+          <p class="point-body">Pencapaian individu itu penting. Tapi warisan terbesar yang bisa kamu tinggalkan dalam organisasi adalah anggota-anggota lain yang tumbuh karena melihat caramu bergerak. <span class="en">"The true measure of your contribution is not what you achieved alone, but how many people around you rose because of your presence."</span> Jadilah energi yang menaikkan standar — bukan yang menurunkannya.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PULL QUOTE 2 -->
+  <div class="pull-quote">
+    <p class="pull-quote-text">"Organisasi yang hebat tidak dibangun oleh satu orang yang luar biasa — tapi oleh banyak orang yang <em>serius dengan peran mereka masing-masing.</em>"</p>
+    <p class="pull-quote-sub">— Untuk setiap anggota yang ingin berarti</p>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section">
+    <p class="section-number">04 — Penutup</p>
+    <h2 class="section-heading">Organisasi ini layak<br>mendapat <em>versi terbaikmu.</em></h2>
+    <p class="prose">
+      Di dalam setiap organisasi, selalu ada momen kritis — momen ketika semangat mulai redup, ketika jadwal terasa padat, ketika perbedaan pendapat menimbulkan ketegangan. Dan di momen itu, satu pertanyaan yang selalu relevan:<br><br>
+      <span class="en">"Who do I choose to be right now, for this team, for this mission?"</span><br><br>
+      Upgrade diri dalam konteks organisasi bukan soal menjadi yang paling menonjol atau paling banyak dikenal. Ini soal memilih setiap hari untuk <strong>hadir lebih penuh, berkontribusi lebih nyata, dan bertanggung jawab lebih berani</strong> dari hari sebelumnya.<br><br>
+      Tidak perlu menunggu pergantian pengurus. Tidak perlu menunggu program baru diluncurkan. Tidak perlu menunggu kondisi organisasi sempurna dulu baru kamu mau bergerak.<br><br>
+      Karena organisasi yang berubah bukan dimulai dari keputusan besar di atas kertas — <strong>tapi dari keputusan kecil setiap anggotanya untuk menjadi sedikit lebih baik dari kemarin.</strong><br><br>
+      <span class="en">"The organization you want to be part of is built by the member you choose to become."</span><br><br>
+      Organisasi yang kamu impikan ada di tangan orang-orang sepertimu — yang mau membaca sampai sejauh ini, yang masih peduli, yang belum menyerah.<br><br>
+      <strong>Mulailah dari dirimu. Sekarang.</strong>
+    </p>
+  </div>
+
+</div>
+
+<section class="closing">
+  <h2 class="closing-title">Bergerak bersama,<br><span>dimulai dari diri.</span></h2>
+  <p class="closing-prose">
+    Organisasi ini tidak akan tumbuh sendiri.<br>
+    Amanah ini tidak akan terpenuhi tanpa kehadiranmu yang nyata.<br>
+    Dan perubahan itu — <em>selalu dimulai dari satu orang yang memilih untuk serius.</em>
+  </p>
+  <div class="closing-stamp">Untuk organisasi yang lebih baik ✦ For a greater mission ahead</div>
+</section>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.section, .pull-quote, .divider, .closing').forEach(el => observer.observe(el));
+
+  const pointObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.point').forEach((point, i) => setTimeout(() => point.classList.add('visible'), i * 120));
+        pointObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.05 });
+  document.querySelectorAll('.points').forEach(el => pointObserver.observe(el));
+</script>
+</body>
+</html>
